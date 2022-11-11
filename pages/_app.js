@@ -49,6 +49,7 @@ const Content = styled.div`
   flex-direction: column;
   flex-grow: 1;
   padding-bottom: 100px;
+  overflow-y: auto;
 `
 
 function App({Component, pageProps}) {

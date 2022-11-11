@@ -85,3 +85,20 @@ To learn more about Next.js, take a look at the following resources:
 
 - [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
 - [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+---
+## Comments
+
+_Given more time, what other changes you would have liked to make?_
+
+- Current solution does not take into account the potentially different currencies that the accounts might have - currently it assumes that all accounts will be pounds. Future implementation could take the currency info from the account and format amounts based on that.
+- If some date formats are used all over the app as the default standard, then it would be useful to have a helper function for the default date format so that the developer doesn't have to remember what type of "do MMM yyyy" format was used everywhere else - also convenient when suddenly we want to format the date slightly differently all over the app, because then we only need to update one helper function.
+- Not entirely satisfied with the solution of passing `listItems` prop to the `PropertyDetailSection` component - on second thought, maybe it would be better to create a `PropertyDetailItem` component that essentially is a wrapper that wraps the passed info in `<AccountListItem><InfoText>` tags and then pass the data as children that get placed within the `AccountList` block - also this way it would be possible to pass components in a different wrapper component if necessary, not only in `<AccountListItem><InfoText>` tags.
+
+_What UX or design improvements or alterations might you suggest? These can be to existing components or completely new ideas._
+
+- The page has a max-width of 1200px, which means that past that width, there are white vertical strips on either side of the app - the app should be more responsive and the Sidebar should always stay on the left side instead of floating in the center once the width goes past 1200px.
+- It's hard to understand that the Mortgage info is clickable since there are no visual cues that this option is available - in the mockup image I did see an arrow icon, which would be a good way to indicate that you can click on the info and move to a new page.
+- The list items have too big of a gap between each other, which visually separates them too much and makes it feel like they're not the same block of information - I would reduce the vertical spacing between the list items to visually group them together.
+- I would probably move the action button to somewhere at the top of the page instead of the bottom - if the page ends up having a lot of information and the user wants to quickly enter and edit, they will have to scroll all the way to the bottom to get to the edit button.
+- There is a lot of unused whitespace that could be better utilised, especially when more information gets added - possibly changing the list view to a grid view, where each block of information is within a visually separated block and is organised in a 2-column structure. That way the page has a better overview look and the user does not have to scroll down to see all the info. In mobile view, the page could remain a list view, since there is less screen real estate on mobile screens.
