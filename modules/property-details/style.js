@@ -1,5 +1,11 @@
 import styled, { css } from "styled-components";
 
+export const SectionWrapper = styled.div`
+  display:flex;
+  flex-direction: row;
+  justify-content:space-between; 
+`
+
 export const AccountList = styled.ul`
   list-style: none;
   padding-left: 0;
@@ -20,10 +26,21 @@ export const AccountHeadline = styled.h2`
   margin-bottom: ${(props) => props.theme.space.m};
 `;
 
+const BADGE_COLOR = '#006b57';
+const BG_BADGE_COLOR = '#c2f7e1';
+
 export const InfoText = styled.div`
   line-height: 1.6;
-  font-size: ${(props) => props.theme.typography.m.fontSize};
   color: ${(props) => props.theme.colors.neutral[600]};
+  font-size: ${(props) => props.theme.typography.m.fontSize};
+  ${({ isBadge }) =>
+  isBadge &&
+  css`
+  padding: 0px 20px 0px 20px;
+  color: ${BADGE_COLOR};
+  background: ${BG_BADGE_COLOR};
+  border-radius: 20px;
+    `}
 `;
 
 export const AccountSection = styled.div`
@@ -36,11 +53,17 @@ export const AccountSection = styled.div`
 `;
 
 export const AccountListItem = styled.div`
+${({ skipRow }) =>
+  skipRow &&
+  css`
+  margin-top: 60px;
+    `}
   display: flex;
 
   &:not(:last-of-type) {
     margin-bottom: ${(props) => props.theme.space.m};
   }
+   justify-content: ${({goRight}) => goRight ? 'flex-end': ''};
 `;
 
 export const Inset = styled.div`
