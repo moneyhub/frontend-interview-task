@@ -72,6 +72,20 @@ const Detail = ({}) => {
           </AccountList>
         </RowContainer>
       </AccountSection>
+      <AccountSection>
+        <AccountLabel>Valuation Changes</AccountLabel>
+        <RowContainer>
+          <AccountList>
+            <AccountListItem><InfoText> Purchased for {`\t`} 
+             {new Intl.NumberFormat("en-GB", {
+            style: "currency",
+            currency: "GBP",
+          }).format(account.originalPurchasePrice)} in {account.originalPurchasePriceDate}</InfoText></AccountListItem>
+            <AccountListItem><InfoText>{account.bankName}</InfoText></AccountListItem>
+            <AccountListItem><InfoText>{account.postcode}</InfoText></AccountListItem>
+          </AccountList>
+        </RowContainer>
+      </AccountSection>
       {mortgage && (
         <AccountSection>
           <AccountLabel>Mortgage</AccountLabel>
