@@ -59,9 +59,10 @@ export const Inset = styled.div`
   padding: 0 ${(props) => props.theme.space.m};
 `;
 
-export const InfoTextCurrency = styled.div`
+export const InfoTextCurrency = styled.span`
   line-height: 1.6;
   font-size: ${(props) => props.theme.typography.m.fontSize};
   font-weight: bold;
+  margin: 0 2px;
   color: ${(props) => props.theme.colors.neutral[600]};
 `;

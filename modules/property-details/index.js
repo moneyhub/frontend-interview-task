@@ -3,7 +3,7 @@ import { add, format } from "date-fns";
 import React from "react";
 import { Button } from "../../components/button";
 import RowContainer from "../../components/row-container";
-import { formatPurchaseDate, purchaseMonth } from "./helpers";
+import { formatPurchaseDate, getOfYearSinceInception, getSinceInception, getSincePurchase, getSincePurchasePercentage, purchaseMonth } from "./helpers";
 import {
   AccountHeadline, AccountLabel, AccountList, AccountListItem, AccountSection, AccountValuationItem, AccountValuationList, InfoText, InfoTextCurrency, Inset
 } from "./style";
@@ -40,8 +40,6 @@ const Detail = ({}) => {
   if (account.associatedMortgages.length) {
     mortgage = account.associatedMortgages[0];
   }
-
-  let purchaseDate = formatPurchaseDate(account.originalPurchasePriceDate)
 
   return (
     <Inset>
@@ -84,15 +82,15 @@ const Detail = ({}) => {
              {new Intl.NumberFormat("en-GB", {
             style: "currency",
             currency: "GBP",
-          }).format(account.originalPurchasePrice)}</InfoTextCurrency> {`\t`} 
-          in  
-          {`\t`} { purchaseMonth(account.originalPurchasePriceDate)} {`\t`}
-          {formatPurchaseDate(account.originalPurchasePriceDate)}</AccountListItem>
+          }).format(account.originalPurchasePrice)}</InfoTextCurrency>   
+          {`\t`} 
+           <span> in {`\t`} { purchaseMonth(account.originalPurchasePriceDate)} {`\t \t`}
+          {formatPurchaseDate(account.originalPurchasePriceDate)}</span></AccountListItem>
           <AccountValuationItem>
-            <AccountValuationList>asas</AccountValuationList>
-            <AccountValuationList>asasfff</AccountValuationList>
-            <dt>happy</dt>
-            <dd>go</dd>
+            <AccountValuationList><AccountListItem>Since Purchase</AccountListItem></AccountValuationList>
+            <AccountValuationList><AccountListItem>{getSincePurchase(account.recentValuation.amount, account.originalPurchasePrice)+ '('+ getSincePurchasePercentage(account.recentValuation.amount, account.originalPurchasePrice)+ ')'}</AccountListItem></AccountValuationList>
+            <AccountValuationList>Annual Appreciation</AccountValuationList>
+            <AccountValuationList>{getSincePurchasePercentage(account.recentValuation.amount, account.originalPurchasePrice)/getSinceInception(account.originalPurchasePriceDate)}%</AccountValuationList>
           </AccountValuationItem>
           </AccountList>
         </RowContainer>
