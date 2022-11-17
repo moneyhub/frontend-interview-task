@@ -14,7 +14,7 @@ export const getSincePurchase =(recentValuation , originalPurchasePrice) => {
 }
 
 export const getSincePurchasePercentage = (recentValuation, originalPurchasePrice) => {
-  return parseInt(getSincePurchase(recentValuation,originalPurchasePrice)/originalPurchasePrice) * 100; 
+  return parseFloat(getSincePurchase(recentValuation,originalPurchasePrice)/originalPurchasePrice) * 100; 
 }
 
 export const getSinceInception=(originalPurchasePriceDate) => {

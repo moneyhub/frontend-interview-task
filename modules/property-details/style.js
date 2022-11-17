@@ -45,6 +45,9 @@ export const AccountValuationList = styled.div`
   line-height: 1.6;
   font-size: ${(props) => props.theme.typography.m.fontSize};
   color: ${(props) => props.theme.colors.neutral[600]};
+  margin-bottom: ${(props) => props.theme.space.m};
+  text-align: left;
+  padding: 12px 0;
 `;
 
 export const AccountListItem = styled.div`
@@ -65,4 +68,15 @@ export const InfoTextCurrency = styled.span`
   font-weight: bold;
   margin: 0 2px;
   color: ${(props) => props.theme.colors.neutral[600]};
+`;
+
+
+export const InfoRectangularBox = styled.div`
+  border-radius: 20px;
+  background: ${(props) => props.theme.colors.green[100]};
+  color: ${(props) => props.theme.colors.green[500]};
+  font-weight: bold;
+  text-align: center;
+  padding: 12px 12px;
+  width: 200px;
 `;
