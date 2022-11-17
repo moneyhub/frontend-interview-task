@@ -3,8 +3,9 @@ import { add, format } from "date-fns";
 import React from "react";
 import { Button } from "../../components/button";
 import RowContainer from "../../components/row-container";
+import { formatPurchaseDate, purchaseMonth } from "./helpers";
 import {
-  AccountHeadline, AccountLabel, AccountList, AccountListItem, AccountSection, InfoText, Inset
+  AccountHeadline, AccountLabel, AccountList, AccountListItem, AccountSection, AccountValuationItem, AccountValuationList, InfoText, InfoTextCurrency, Inset
 } from "./style";
 
 
@@ -39,6 +40,8 @@ const Detail = ({}) => {
   if (account.associatedMortgages.length) {
     mortgage = account.associatedMortgages[0];
   }
+
+  let purchaseDate = formatPurchaseDate(account.originalPurchasePriceDate)
 
   return (
     <Inset>
@@ -76,13 +79,21 @@ const Detail = ({}) => {
         <AccountLabel>Valuation Changes</AccountLabel>
         <RowContainer>
           <AccountList>
-            <AccountListItem><InfoText> Purchased for {`\t`} 
+            <AccountListItem> Purchased for {`\t`} 
+            <InfoTextCurrency>
              {new Intl.NumberFormat("en-GB", {
             style: "currency",
             currency: "GBP",
-          }).format(account.originalPurchasePrice)} in {account.originalPurchasePriceDate}</InfoText></AccountListItem>
-            <AccountListItem><InfoText>{account.bankName}</InfoText></AccountListItem>
-            <AccountListItem><InfoText>{account.postcode}</InfoText></AccountListItem>
+          }).format(account.originalPurchasePrice)}</InfoTextCurrency> {`\t`} 
+          in  
+          {`\t`} { purchaseMonth(account.originalPurchasePriceDate)} {`\t`}
+          {formatPurchaseDate(account.originalPurchasePriceDate)}</AccountListItem>
+          <AccountValuationItem>
+            <AccountValuationList>asas</AccountValuationList>
+            <AccountValuationList>asasfff</AccountValuationList>
+            <dt>happy</dt>
+            <dd>go</dd>
+          </AccountValuationItem>
           </AccountList>
         </RowContainer>
       </AccountSection>

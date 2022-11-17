@@ -35,6 +35,18 @@ export const AccountSection = styled.div`
 }
 `;
 
+export const AccountValuationItem = styled.dl`
+  display: flex;
+  flex-flow: row wrap;
+`;
+
+export const AccountValuationList = styled.div`
+  width: 50%;
+  line-height: 1.6;
+  font-size: ${(props) => props.theme.typography.m.fontSize};
+  color: ${(props) => props.theme.colors.neutral[600]};
+`;
+
 export const AccountListItem = styled.div`
   display: flex;
 
@@ -45,4 +57,11 @@ export const AccountListItem = styled.div`
 
 export const Inset = styled.div`
   padding: 0 ${(props) => props.theme.space.m};
+`;
+
+export const InfoTextCurrency = styled.div`
+  line-height: 1.6;
+  font-size: ${(props) => props.theme.typography.m.fontSize};
+  font-weight: bold;
+  color: ${(props) => props.theme.colors.neutral[600]};
 `;
