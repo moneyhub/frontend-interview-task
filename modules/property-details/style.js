@@ -38,6 +38,7 @@ export const AccountSection = styled.div`
 export const AccountValuationItem = styled.dl`
   display: flex;
   flex-flow: row wrap;
+  align-items: center;
 `;
 
 export const AccountValuationList = styled.div`
@@ -47,7 +48,6 @@ export const AccountValuationList = styled.div`
   color: ${(props) => props.theme.colors.neutral[600]};
   margin-bottom: ${(props) => props.theme.space.m};
   text-align: left;
-  padding: 12px 0;
 `;
 
 export const AccountListItem = styled.div`
@@ -77,6 +77,6 @@ export const InfoRectangularBox = styled.div`
   color: ${(props) => props.theme.colors.green[500]};
   font-weight: bold;
   text-align: center;
-  padding: 12px 12px;
+  padding: 12px 10px;
   width: 200px;
 `;
