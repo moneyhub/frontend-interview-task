@@ -32,7 +32,9 @@ Consider opportunities to reduce repetition in the code and increase legibility
 We also ask that you update the readme with answers to the following questions 
 
 1. Given more time, what other changes you would have liked to make?
-2. What UX or design improvements or alterations might you suggest? These can be to existing components or completely new ideas.
+--- Could have extracted currency formatter into helper function. Date format could be better in 'Estimated value'.
+3. What UX or design improvements or alterations might you suggest? These can be to existing components or completely new ideas.
+--- Text color is light on white background can be improved.
 
 ----
 
@@ -68,6 +70,9 @@ We recommend working through the list of requirements above but don't expect you
 On completion, email a link to your repository to your contact at Moneyhub, and ensure it is publicly accessible.
 
 ## Getting Started
+
+```
+npm install next react react-dom
 
 Run the development server:
 
