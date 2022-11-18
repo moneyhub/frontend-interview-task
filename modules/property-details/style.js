@@ -35,10 +35,11 @@ export const AccountSection = styled.div`
 }
 `;
 
-export const AccountValuationItem = styled.dl`
+export const AccountValuationItem = styled.div`
   display: flex;
   flex-flow: row wrap;
   align-items: center;
+  margin-top: 16px;
 `;
 
 export const AccountValuationList = styled.div`
@@ -67,7 +68,7 @@ export const InfoTextCurrency = styled.span`
   font-size: ${(props) => props.theme.typography.m.fontSize};
   font-weight: bold;
   margin: 0 2px;
-  color: ${(props) => props.theme.colors.neutral[600]};
+  color: ${(props) => props.theme.colors.neutral[900]};
 `;
 
 

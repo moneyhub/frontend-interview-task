@@ -77,7 +77,7 @@ const Detail = ({}) => {
         <AccountLabel>Valuation Changes</AccountLabel>
         <RowContainer>
           <AccountList>
-            <AccountListItem> Purchased for {`\t`} 
+            <AccountListItem><InfoText> Purchased for {`\t`} 
             <InfoTextCurrency>
              {new Intl.NumberFormat("en-GB", {
             style: "currency",
@@ -85,7 +85,7 @@ const Detail = ({}) => {
           }).format(account.originalPurchasePrice)}</InfoTextCurrency>   
           {`\t`} 
            <span> in {`\t`} { purchaseMonth(account.originalPurchasePriceDate)} {`\t \t`}
-          {formatPurchaseDate(account.originalPurchasePriceDate)}</span></AccountListItem>
+          {formatPurchaseDate(account.originalPurchasePriceDate)}</span></InfoText></AccountListItem>
           <AccountValuationItem>
             <AccountValuationList><AccountList>Since Purchase</AccountList></AccountValuationList>
             <AccountValuationList><AccountListItem><InfoRectangularBox>{new Intl.NumberFormat("en-GB", {
