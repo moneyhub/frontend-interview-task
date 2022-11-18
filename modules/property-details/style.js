@@ -51,6 +51,13 @@ export const AccountValuationList = styled.div`
   text-align: left;
 `;
 
+export const AccountValuationListInfo = styled.div`
+  width: 50%;
+  display: flex;
+  margin-bottom: ${(props) => props.theme.space.m};
+  justify-content: flex-end;
+`;
+
 export const AccountListItem = styled.div`
   display: flex;
 
@@ -59,7 +66,7 @@ export const AccountListItem = styled.div`
   }
 `;
 
-export const valuationListItemExtended = styled.div`
+export const ValuationListItem = styled.div`
   display: flex;
   justify-content: flex-end;
 
@@ -67,10 +74,7 @@ export const valuationListItemExtended = styled.div`
     margin-bottom: ${(props) => props.theme.space.m};
   }
 `;
-export const AccountValuationListItem = styled.div`
-  display: flex;
-  justify-content: flex-end
-`;
+
 
 export const Inset = styled.div`
   padding: 0 ${(props) => props.theme.space.m};

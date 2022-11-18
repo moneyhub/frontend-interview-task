@@ -5,7 +5,7 @@ import { Button } from "../../components/button";
 import RowContainer from "../../components/row-container";
 import { formatPurchaseDate, getOfYearSinceInception, getSinceInception, getSincePurchase, getSincePurchasePercentage, purchaseMonth } from "./helpers";
 import {
-  AccountHeadline, AccountLabel, AccountList, AccountListItem, AccountSection, AccountValuationItem, AccountValuationList, InfoRectangularBox, InfoText, InfoTextCurrency, Inset
+  AccountHeadline, AccountLabel, AccountList, AccountListItem, AccountSection, AccountValuationItem, AccountValuationList, AccountValuationListInfo, InfoRectangularBox, InfoText, InfoTextCurrency, Inset
 } from "./style";
 
 
@@ -76,25 +76,43 @@ const Detail = ({}) => {
       <AccountSection>
         <AccountLabel>Valuation Changes</AccountLabel>
           <AccountList>
-            <AccountValuationList> Purchased for {`\t`} 
-            <InfoTextCurrency>
-             {new Intl.NumberFormat("en-GB", {
-            style: "currency",
-            currency: "GBP",
-          }).format(account.originalPurchasePrice)}</InfoTextCurrency>   
-          {`\t`} 
-           <span> in {`\t`} { purchaseMonth(account.originalPurchasePriceDate)} {`\t \t`}
-          {formatPurchaseDate(account.originalPurchasePriceDate)}</span></AccountValuationList>
-          <AccountValuationItem>
-            <AccountValuationList><AccountList>Since Purchase</AccountList></AccountValuationList>
-            <AccountValuationList><InfoRectangularBox>{new Intl.NumberFormat("en-GB", {
-            style: "currency",
-            currency: "GBP",
-          }).format(getSincePurchase(account.recentValuation.amount, account.originalPurchasePrice))+ '('+ getSincePurchasePercentage(account.recentValuation.amount, account.originalPurchasePrice)+ '%)'} </InfoRectangularBox></AccountValuationList>
-            <AccountValuationList>Annual Appreciation</AccountValuationList>
-            <AccountValuationList><InfoRectangularBox> {getSincePurchasePercentage(account.recentValuation.amount, account.originalPurchasePrice)/getSinceInception(account.originalPurchasePriceDate)}% </InfoRectangularBox></AccountValuationList>
-          </AccountValuationItem>
-          </AccountList>
+            <InfoText> 
+                Purchased for
+                <InfoTextCurrency>
+                  {new Intl.NumberFormat("en-GB", {
+                  style: "currency",
+                  currency: "GBP",
+                  minimumFractionDigits: 0,
+                }).format(account.originalPurchasePrice)}
+              </InfoTextCurrency>   
+              <span> in { purchaseMonth(account.originalPurchasePriceDate)} {`\t`}
+                {formatPurchaseDate(account.originalPurchasePriceDate)}
+              </span>
+            </InfoText>
+            <AccountValuationItem>
+              <AccountValuationList>
+                Since Purchase
+              </AccountValuationList>
+              <AccountValuationListInfo>
+                <InfoRectangularBox>
+                  {new Intl.NumberFormat("en-GB", {
+                  style: "currency",
+                  currency: "GBP",
+                  minimumFractionDigits: 0,
+                }).format(getSincePurchase(account.recentValuation.amount, account.originalPurchasePrice))+
+                '('+ getSincePurchasePercentage(account.recentValuation.amount, account.originalPurchasePrice)+ '%)'} 
+                </InfoRectangularBox>
+              </AccountValuationListInfo>
+              <AccountValuationList>
+                Annual Appreciation
+              </AccountValuationList>
+              <AccountValuationListInfo>
+                <InfoRectangularBox> 
+                  {getSincePurchasePercentage(account.recentValuation.amount, account.originalPurchasePrice)/getSinceInception(account.originalPurchasePriceDate)}% 
+                </InfoRectangularBox>
+              </AccountValuationListInfo>
+            </AccountValuationItem>
+        </AccountList>
       </AccountSection>
       {mortgage && (
         <AccountSection>
