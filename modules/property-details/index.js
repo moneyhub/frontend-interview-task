@@ -75,9 +75,8 @@ const Detail = ({}) => {
       </AccountSection>
       <AccountSection>
         <AccountLabel>Valuation Changes</AccountLabel>
-        <RowContainer>
           <AccountList>
-            <AccountListItem><InfoText> Purchased for {`\t`} 
+            <AccountValuationList> Purchased for {`\t`} 
             <InfoTextCurrency>
              {new Intl.NumberFormat("en-GB", {
             style: "currency",
@@ -85,18 +84,17 @@ const Detail = ({}) => {
           }).format(account.originalPurchasePrice)}</InfoTextCurrency>   
           {`\t`} 
            <span> in {`\t`} { purchaseMonth(account.originalPurchasePriceDate)} {`\t \t`}
-          {formatPurchaseDate(account.originalPurchasePriceDate)}</span></InfoText></AccountListItem>
+          {formatPurchaseDate(account.originalPurchasePriceDate)}</span></AccountValuationList>
           <AccountValuationItem>
             <AccountValuationList><AccountList>Since Purchase</AccountList></AccountValuationList>
-            <AccountValuationList><AccountListItem><InfoRectangularBox>{new Intl.NumberFormat("en-GB", {
+            <AccountValuationList><InfoRectangularBox>{new Intl.NumberFormat("en-GB", {
             style: "currency",
             currency: "GBP",
-          }).format(getSincePurchase(account.recentValuation.amount, account.originalPurchasePrice))+ '('+ getSincePurchasePercentage(account.recentValuation.amount, account.originalPurchasePrice)+ '%)'} </InfoRectangularBox></AccountListItem></AccountValuationList>
+          }).format(getSincePurchase(account.recentValuation.amount, account.originalPurchasePrice))+ '('+ getSincePurchasePercentage(account.recentValuation.amount, account.originalPurchasePrice)+ '%)'} </InfoRectangularBox></AccountValuationList>
             <AccountValuationList>Annual Appreciation</AccountValuationList>
             <AccountValuationList><InfoRectangularBox> {getSincePurchasePercentage(account.recentValuation.amount, account.originalPurchasePrice)/getSinceInception(account.originalPurchasePriceDate)}% </InfoRectangularBox></AccountValuationList>
           </AccountValuationItem>
           </AccountList>
-        </RowContainer>
       </AccountSection>
       {mortgage && (
         <AccountSection>

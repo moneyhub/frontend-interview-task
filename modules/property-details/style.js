@@ -59,6 +59,19 @@ export const AccountListItem = styled.div`
   }
 `;
 
+export const valuationListItemExtended = styled.div`
+  display: flex;
+  justify-content: flex-end;
+
+  &:not(:last-of-type) {
+    margin-bottom: ${(props) => props.theme.space.m};
+  }
+`;
+export const AccountValuationListItem = styled.div`
+  display: flex;
+  justify-content: flex-end
+`;
+
 export const Inset = styled.div`
   padding: 0 ${(props) => props.theme.space.m};
 `;
@@ -80,4 +93,5 @@ export const InfoRectangularBox = styled.div`
   text-align: center;
   padding: 12px 10px;
   width: 200px;
+  justify-content: flex-end;
 `;
