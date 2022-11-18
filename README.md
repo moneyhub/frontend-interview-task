@@ -43,6 +43,16 @@ We also ask that you update the readme with answers to the following questions
   - Details of a property are located in the API at `/api/account`, use this endpoint to populate the app with data
   - Use whichever method or library you are comfortable with to fetch the data
 
+--- 
+Used react-query data fetching library . As it handles data fetching easily.
+```
+ {/* <QueryClientProvider client={queryClient}>
+          <DetailFromAPI/>
+		  </QueryClientProvider> */}
+    
+ ````
+ Need to uncomment this line to run component with api data.
+
 ----
 
 Try to:
