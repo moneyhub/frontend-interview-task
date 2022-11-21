@@ -35,6 +35,29 @@ export const AccountSection = styled.div`
 }
 `;
 
+export const AccountValuationItem = styled.div`
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  margin-top: 16px;
+`;
+
+export const AccountValuationList = styled.div`
+  width: 50%;
+  line-height: 1.6;
+  font-size: ${(props) => props.theme.typography.m.fontSize};
+  color: ${(props) => props.theme.colors.neutral[600]};
+  margin-bottom: ${(props) => props.theme.space.m};
+  text-align: left;
+`;
+
+export const AccountValuationListInfo = styled.div`
+  width: 50%;
+  display: flex;
+  margin-bottom: ${(props) => props.theme.space.m};
+  justify-content: flex-end;
+`;
+
 export const AccountListItem = styled.div`
   display: flex;
 
@@ -45,4 +68,23 @@ export const AccountListItem = styled.div`
 
 export const Inset = styled.div`
   padding: 0 ${(props) => props.theme.space.m};
+`;
+
+export const InfoTextCurrency = styled.span`
+  line-height: 1.6;
+  font-size: ${(props) => props.theme.typography.m.fontSize};
+  font-weight: bold;
+  margin: 0 2px;
+  color: ${(props) => props.theme.colors.neutral[900]};
+`;
+
+export const InfoRectangularBox = styled.div`
+  border-radius: 20px;
+  background: ${(props) => props.theme.colors.green[100]};
+  color: ${(props) => props.theme.colors.green[500]};
+  font-weight: bold;
+  text-align: center;
+  padding: 12px 10px;
+  width: 200px;
+  justify-content: flex-end;
 `;
