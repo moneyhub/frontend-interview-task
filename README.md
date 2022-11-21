@@ -32,9 +32,14 @@ Consider opportunities to reduce repetition in the code and increase legibility
 We also ask that you update the readme with answers to the following questions 
 
 1. Given more time, what other changes you would have liked to make?
-2. What UX or design improvements or alterations might you suggest? These can be to existing components or completely new ideas.
+- Use some useEffects and create loaders idk and load data only call is done, maybe use https://www.npmjs.com/package/react-loading-skeleton or similar packages.
+- Could move some code like functions or defs from main file to a defs and utils/helpers .js file(s)
+- Create the business component that hides agnostic component also for product details and for product estimated value.
+- Add unit tests, end2end tests? 
 
-----
+2. What UX or design improvements or alterations might you suggest? These can be to existing components or completely new ideas.
+- Instead of using the AccountList and AccountListItem I would create something more general and not business related components like only a Layout and a LayoutItem component and based on that create multi dimension matrix layout or something like row, column(s) maybe would be more clean.
+- For more minimized layout you could group more the data in structures like arrays and loop over them to minimize the code in the jsx. For the ValuationChangeSection is a little more difficult because of the custom bold stuff also.
 
 **Optional**: If you have time, show us some more by fetching the data from the api
   - Currently the property data is hardcoded in the component, but it is also avaible via a Next.js api route

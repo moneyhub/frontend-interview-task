@@ -1,106 +1,186 @@
 /* eslint-disable max-statements */
 import { add, format } from "date-fns";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { Button } from "../../components/button";
 import RowContainer from "../../components/row-container";
 import {
-  AccountHeadline, AccountLabel, AccountList, AccountListItem, AccountSection, InfoText, Inset
+  AccountHeadline, AccountLabel, AccountList, AccountListItem, AccountSection, InfoText, Inset, SectionWrapper
 } from "./style";
+import axios from 'axios';
+import PropTypes from 'prop-types'; // ES6
 
+const FETCH_ACCOUNT_URL = 'http://localhost:3333/api/account';
 
-const account = {
-  uid: "65156cdc-5cfd-4b34-b626-49c83569f35e",
-  deleted: false,
-  dateCreated: "2020-12-03T08:55:33.421Z",
-  currency: "GBP",
-  name: "15 Temple Way",
-  bankName: "Residential",
-  type: "properties",
-  subType: "residential",
-  originalPurchasePrice: 250000,
-  originalPurchasePriceDate: "2017-09-03",
-  recentValuation: { amount: 310000, status: "good" },
-  associatedMortgages: [
-    {
-      name: "HSBC Repayment Mortgage",
-      uid: "fb463121-b51a-490d-9f19-d2ea76f05e25",
-      currentBalance: -175000,
-    },
-  ],
-  canBeManaged: false,
-  postcode: "BS1 2AA",
-  lastUpdate: "2020-12-01T08:55:33.421Z",
-  updateAfterDays: 30,
+const MONTH_NAMES = [ "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December" ];
+
+const getYearsSincePurchase = (originalPurchasePriceDate) => {
+  return new Date().getFullYear() - new Date(originalPurchasePriceDate).getFullYear();
 };
 
+const getSincePurchase = (recentValuation, originalPurchasePrice) => {
+  return recentValuation.amount - originalPurchasePrice;
+};
+
+const getSincePurchasePercentage = (recentValuation, originalPurchasePrice) => {
+  return (getSincePurchase(recentValuation, originalPurchasePrice) / originalPurchasePrice) * 100
+};
+
+const renderCustomAccountListItem = (originalPurchasePriceDate, originalPriceValue) => {
+  return (<AccountList>
+    <AccountListItem>
+      <>
+        <InfoText>{`Purchased for`}&nbsp;</InfoText>
+        <InfoText><strong>{originalPriceValue}</strong></InfoText>
+        <InfoText>&nbsp;{`in ${MONTH_NAMES[new Date(originalPurchasePriceDate).getMonth()-1]} ${new Date(originalPurchasePriceDate).getFullYear()}`}</InfoText>
+      </>
+    </AccountListItem>
+    <AccountListItem><InfoText>Since Purchase</InfoText></AccountListItem>
+    <AccountListItem><InfoText>Annual Appreciation</InfoText></AccountListItem>
+  </AccountList>)
+};
+
+//this would be a more agnostic approach component in terms of business logic :)
+const TitledList = ({labels, title, headLineInfo = null, handleClick = () => null}) => (
+  <AccountSection>
+    <AccountLabel>{title} </AccountLabel>
+    {headLineInfo && <AccountHeadline>
+      {headLineInfo}
+    </AccountHeadline>}
+    <RowContainer onClick={handleClick}>
+      <AccountList>
+        {labels.map((label, key) => <AccountListItem key={key}><InfoText>{label}</InfoText></AccountListItem>)}
+      </AccountList>
+    </RowContainer>
+  </AccountSection>
+
+);
+
+const MortgageSection = ({currentBalance, name, handleClickMortgage}) => (
+  <TitledList title='Mortgage' labels={[currentBalance, name]} handleClick={handleClickMortgage}/>
+);
+
+const ValuationChangeSection = (account)=> {
+  const {recentValuation, originalPurchasePrice, originalPurchasePriceDate} = account;
+  const yearsSincePurchase = getYearsSincePurchase(originalPurchasePriceDate);
+
+  const sincePurchasePercentage = getSincePurchasePercentage(recentValuation, originalPurchasePrice);
+
+  const originalPriceValue = new Intl.NumberFormat("en-GB", {
+    style: "currency",
+    currency: "GBP",
+    maximumSignificantDigits: 3
+  }).format(
+    Math.abs(originalPurchasePrice)
+  )
+
+  const sincePurchaseValue = new Intl.NumberFormat("en-GB", {
+    style: "currency",
+    currency: "GBP",
+    maximumSignificantDigits: 3
+  }).format(
+    Math.abs(getSincePurchase(recentValuation, originalPurchasePrice))
+  )
+
+
+  const sincePurchaseInfo = `${sincePurchaseValue} (${sincePurchasePercentage}%)`;
+  return (
+      <AccountSection>
+        <AccountLabel>Valuation change</AccountLabel>
+        <SectionWrapper>
+          {renderCustomAccountListItem(originalPurchasePriceDate, originalPriceValue)}
+          <div>
+            <AccountList>
+              <AccountListItem skipRow goRight><InfoText isBadge>{sincePurchaseInfo}</InfoText></AccountListItem>
+              <AccountListItem goRight><InfoText isBadge>{`${sincePurchasePercentage / yearsSincePurchase}%`}</InfoText></AccountListItem>
+            </AccountList>
+          </div>
+        </SectionWrapper>
+      </AccountSection>
+    )
+}
+
+
 const Detail = ({}) => {
-  let mortgage;
-  const lastUpdate = new Date(account.lastUpdate);
-  if (account.associatedMortgages.length) {
-    mortgage = account.associatedMortgages[0];
+
+  const [account, setAccount] = useState(null);
+
+  useEffect(() => {
+    axios.get(FETCH_ACCOUNT_URL).then((response) => {
+      setAccount(response.data.account);
+    });
+  }, []);
+
+  let lastUpdateRaw, currentBalance;
+  let mortgages = [];
+  if(account) {
+    const { associatedMortgages, lastUpdate} = account;
+    mortgages = associatedMortgages;
+    lastUpdateRaw = new Date(lastUpdate);
+
+    currentBalance = new Intl.NumberFormat("en-GB", {
+      style: "currency",
+      currency: "GBP",
+    }).format(
+      Math.abs(mortgages[0]?.currentBalance)
+    );
   }
+
 
   return (
     <Inset>
-      <AccountSection>
-        <AccountLabel>Estimated Value</AccountLabel>
-        <AccountHeadline>
-          {new Intl.NumberFormat("en-GB", {
+      {account ? (
+        <>
+          <TitledList
+            title={'Estimated Value'}
+            labels={[`Last updated ${format(lastUpdateRaw, "do MMM yyyy")}`, `Next update ${format(
+            add(lastUpdateRaw, { days: account.updateAfterDays }),
+            "do MMM yyyy"
+          )}`]}
+            headLineInfo={new Intl.NumberFormat("en-GB", {
             style: "currency",
             currency: "GBP",
-          }).format(account.recentValuation.amount)}
-        </AccountHeadline>
-        <AccountList>
-          <AccountListItem><InfoText>
-            {`Last updated ${format(lastUpdate, "do MMM yyyy")}`}
-          </InfoText></AccountListItem>
-          <AccountListItem><InfoText>
-            {`Next update ${format(
-              add(lastUpdate, { days: account.updateAfterDays }),
-              "do MMM yyyy"
-            )}`}
-          </InfoText></AccountListItem>
-        </AccountList>
-      </AccountSection>
-      <AccountSection>
-        <AccountLabel>Property details</AccountLabel>
-        <RowContainer>
-          <AccountList>
-            <AccountListItem><InfoText>{account.name}</InfoText></AccountListItem>
-            <AccountListItem><InfoText>{account.bankName}</InfoText></AccountListItem>
-            <AccountListItem><InfoText>{account.postcode}</InfoText></AccountListItem>
-          </AccountList>
-        </RowContainer>
-      </AccountSection>
-      {mortgage && (
-        <AccountSection>
-          <AccountLabel>Mortgage</AccountLabel>
-          <RowContainer
+          }).format(account.recentValuation.amount)} />
+
+          <TitledList
+            title={'Property details'}
+            labels={[account.name, account.bankName, account.postcode]} />
+          <ValuationChangeSection
+            originalPurchasePrice={account.originalPurchasePrice}
+            originalPurchasePriceDate={account.originalPurchasePriceDate}
+            recentValuation={account.recentValuation}
+          />
+          {!!mortgages.length && (
+            <MortgageSection handleClickMortgage={() => alert("You have navigated to the mortgage page")} currentBalance={currentBalance} name={mortgages[0].name}/>
+          )}
+          <Button
             // This is a dummy action
-            onClick={() => alert("You have navigated to the mortgage page")}
+            onClick={() => alert("You have navigated to the edit account page")}
           >
-            <AccountList>
-              <AccountListItem><InfoText>
-                {new Intl.NumberFormat("en-GB", {
-                  style: "currency",
-                  currency: "GBP",
-                }).format(
-                  Math.abs(account.associatedMortgages[0].currentBalance)
-                )}
-              </InfoText></AccountListItem>
-              <AccountListItem><InfoText>{account.associatedMortgages[0].name}</InfoText></AccountListItem>
-            </AccountList>
-          </RowContainer>
-        </AccountSection>
-      )}
-      <Button
-        // This is a dummy action
-        onClick={() => alert("You have navigated to the edit account page")}
-      >
-        Edit account
-      </Button>
+            Edit account
+          </Button>
+        </>
+      ) : (<InfoText>loading...</InfoText>)}
+
     </Inset>
   );
+};
+ValuationChangeSection.propTypes = {
+  originalPurchasePrice: PropTypes.number,
+  originalPurchasePriceDate: PropTypes.string,
+  recentValuation: PropTypes.object,
+};
+
+renderCustomAccountListItem.propTypes = {
+  originalPurchasePrice: PropTypes.number,
+  originalPurchasePriceDate: PropTypes.string
+};
+
+TitledList.propTypes = {
+  labels: PropTypes.array, // stirng[]
+  title: PropTypes.string,
+  headLineInfo: PropTypes.string,
+  handleClick: PropTypes.func
 };
 
 export default Detail;
