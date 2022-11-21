@@ -137,26 +137,6 @@ const Detail = ({}) => {
     <Inset>
       {account ? (
         <>
-          <AccountSection>
-            <AccountLabel>Estimated Value</AccountLabel>
-            <AccountHeadline>
-              {new Intl.NumberFormat("en-GB", {
-                style: "currency",
-                currency: "GBP",
-              }).format(account.recentValuation.amount)}
-            </AccountHeadline>
-            <AccountList>
-              <AccountListItem><InfoText>
-                {`Last updated ${format(lastUpdateRaw, "do MMM yyyy")}`}
-              </InfoText></AccountListItem>
-              <AccountListItem><InfoText>
-                {`Next update ${format(
-                  add(lastUpdateRaw, { days: account.updateAfterDays }),
-                  "do MMM yyyy"
-                )}`}
-              </InfoText></AccountListItem>
-            </AccountList>
-          </AccountSection>
           <TitledList
             title={'Estimated Value'}
             labels={[`Last updated ${format(lastUpdateRaw, "do MMM yyyy")}`, `Next update ${format(
