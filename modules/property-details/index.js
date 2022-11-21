@@ -9,12 +9,6 @@ import {
 import axios from 'axios';
 import PropTypes from 'prop-types'; // ES6
 
-//TO.DO: It feels like the jsx tree/code is to verbose the components can be simplified and can we can reduce the code duplication by creating some section components like <PropertyDetails /> <ValuationChange/> and <Mortgage/>
-//TO.DO: Instead of using the AccountList and AccountListItem I would create something more general and not business related components like only a Layout and a LayoutItem component and based on that create multy dimentional matrix layout or something like row, column(s) maybe would be more clean.
-//TO.DO  For more minimized layout you could group the data in structures like arrays and loop over them to minimize the code in the jsx. it would require to many changes now for this component since you have that price bolded.
-//TO.DO  Use some useEffects and create loaders idk and load data only call is done, maybe use https://www.npmjs.com/package/react-loading-skeleton or similar packages.
-//TO.DO  Could move code bellow to a defs and utils/helpers .js file(s)
-
 const FETCH_ACCOUNT_URL = 'http://localhost:3333/api/account';
 
 const MONTH_NAMES = [ "January", "February", "March", "April", "May", "June",
@@ -61,7 +55,7 @@ const TitledList = ({labels, title, headLineInfo = null, handleClick = () => nul
   </AccountSection>
 
 );
-//TO.DO: Create the business component that hides agnostic component also for product details and for product estimated value.
+
 const MortgageSection = ({currentBalance, name, handleClickMortgage}) => (
   <TitledList title='Mortgage' labels={[currentBalance, name]} handleClick={handleClickMortgage}/>
 );
@@ -188,6 +182,5 @@ TitledList.propTypes = {
   headLineInfo: PropTypes.string,
   handleClick: PropTypes.func
 };
-//etc
 
 export default Detail;
