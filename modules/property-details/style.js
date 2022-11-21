@@ -66,16 +66,6 @@ export const AccountListItem = styled.div`
   }
 `;
 
-export const ValuationListItem = styled.div`
-  display: flex;
-  justify-content: flex-end;
-
-  &:not(:last-of-type) {
-    margin-bottom: ${(props) => props.theme.space.m};
-  }
-`;
-
-
 export const Inset = styled.div`
   padding: 0 ${(props) => props.theme.space.m};
 `;
@@ -87,7 +77,6 @@ export const InfoTextCurrency = styled.span`
   margin: 0 2px;
   color: ${(props) => props.theme.colors.neutral[900]};
 `;
-
 
 export const InfoRectangularBox = styled.div`
   border-radius: 20px;
