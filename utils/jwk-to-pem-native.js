@@ -15,7 +15,7 @@ const crypto = require('crypto');
  * @returns {string} PEM formatted key
  */
 function jwkToPem(jwk, options = {}) {
-  if (!jwk || typeof jwk !== 'object') {
+  if (!jwk || typeof jwk !== 'object' || Array.isArray(jwk)) {
     throw new Error('JWK must be an object');
   }
 
