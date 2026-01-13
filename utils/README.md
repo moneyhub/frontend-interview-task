@@ -1,6 +1,6 @@
 # JWK to PEM Native Conversion Utility
 
-This utility provides native Node.js implementations for converting JSON Web Keys (JWK) to PEM format, replacing the need for the `jwk-to-pem` package.
+This utility provides a native Node.js implementation for converting JSON Web Keys (JWK) to PEM format, replacing the need for the `jwk-to-pem` package.
 
 ## Why Replace jwk-to-pem?
 
@@ -15,11 +15,12 @@ This utility provides native Node.js implementations for converting JSON Web Key
 
 ## Usage
 
-### Convert Public JWK to PEM
+### Convert JWK to PEM
 
 ```javascript
-const { jwkToPem } = require('./jwk-to-pem-native');
+const jwkToPem = require('./utils/jwk-to-pem-native');
 
+// Public key
 const publicJwk = {
   kty: 'RSA',
   n: 'xGOr-H7A-PWbdgD...',
@@ -38,8 +39,9 @@ console.log(pem);
 ### Convert Private JWK to PEM
 
 ```javascript
-const { jwkToPrivatePem } = require('./jwk-to-pem-native');
+const jwkToPem = require('./utils/jwk-to-pem-native');
 
+// Private key (automatically detected by presence of 'd' component)
 const privateJwk = {
   kty: 'RSA',
   n: 'xGOr-H7A-PWbdgD...',
@@ -52,25 +54,13 @@ const privateJwk = {
   qi: '...'
 };
 
-const privatePem = jwkToPrivatePem(privateJwk);
-```
+const privatePem = jwkToPem(privateJwk);
+// -----BEGIN PRIVATE KEY-----
+// ...
+// -----END PRIVATE KEY-----
 
-### Verify JWT with JWK (More Efficient)
-
-Instead of converting JWK to PEM first, you can verify JWTs directly:
-
-```javascript
-const { verifyJwtWithJwk } = require('./jwk-to-pem-native');
-
-const token = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...';
-const jwk = { /* your JWK */ };
-
-try {
-  const payload = verifyJwtWithJwk(token, jwk);
-  console.log('Token is valid:', payload);
-} catch (error) {
-  console.error('Token verification failed:', error.message);
-}
+// Or explicitly specify private key
+const privatePem2 = jwkToPem(privateJwk, { private: true });
 ```
 
 ## Migration from jwk-to-pem
@@ -86,22 +76,22 @@ const pem = jwkToPem(jwk);
 ### After (using native Node.js)
 
 ```javascript
-const { jwkToPem } = require('./utils/jwk-to-pem-native');
+const jwkToPem = require('./utils/jwk-to-pem-native');
 
 const pem = jwkToPem(jwk);
 ```
 
-The API is nearly identical for basic usage, making migration straightforward.
+The API is identical, making migration a simple drop-in replacement.
 
 ## Supported Key Types
 
-- **RSA** (RS256, RS384, RS512)
-- **ECDSA** (ES256, ES384, ES512)
-- **RSA-PSS** (PS256, PS384, PS512)
+- **RSA** (all sizes)
+- **ECDSA** (P-256, P-384, P-521)
+- **Ed25519** and **Ed448**
 
 ## Error Handling
 
-All functions throw descriptive errors:
+The function throws descriptive errors:
 
 ```javascript
 try {
@@ -115,11 +105,11 @@ try {
 
 ## Testing
 
-To test the utility, you can use the following example:
+To test the utility:
 
 ```javascript
 const crypto = require('crypto');
-const { jwkToPem, verifyJwtWithJwk } = require('./jwk-to-pem-native');
+const jwkToPem = require('./utils/jwk-to-pem-native');
 
 // Generate a test key pair
 const { publicKey, privateKey } = crypto.generateKeyPairSync('rsa', {
@@ -139,11 +129,12 @@ console.log('Converted PEM:', pem);
 1. **Zero Dependencies**: No need to install and maintain external packages
 2. **Always Up-to-Date**: Uses the crypto implementation from your Node.js version
 3. **Security**: Reduced attack surface by eliminating external dependencies
-4. **Type Safety**: Native crypto APIs are well-documented and typed
+4. **Simple API**: Single function, minimal configuration
 5. **Performance**: Direct access to native crypto operations
 
 ## Notes
 
 - This implementation requires Node.js 15+ for full JWK support
-- For older Node.js versions, consider upgrading or using a polyfill
+- For older Node.js versions, consider upgrading
 - The utility handles standard JWK formats as defined in RFC 7517
+- Private keys are automatically detected by the presence of the `d` component

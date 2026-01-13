@@ -23,21 +23,20 @@ Created `utils/jwk-to-pem-native.js` to replace the `jwk-to-pem` package with na
 - No maintenance burden from external packages
 
 **Key Features:**
-- `jwkToPem()` - Convert public JWK to PEM format
-- `jwkToPrivatePem()` - Convert private JWK to PEM format
-- `verifyJwtWithJwk()` - Verify JWT tokens directly with JWK (more efficient)
+- Single `jwkToPem()` function - converts both public and private JWKs to PEM
+- Auto-detects private keys by checking for the `d` component
 - Full error handling and validation
-- Supports RSA, ECDSA, and RSA-PSS key types
+- Supports RSA, ECDSA, Ed25519, and Ed448 key types
 
 **Usage Example:**
 ```javascript
-const { jwkToPem, verifyJwtWithJwk } = require('./utils/jwk-to-pem-native');
+const jwkToPem = require('./utils/jwk-to-pem-native');
 
-// Convert JWK to PEM
-const pem = jwkToPem(publicJwk);
+// Convert public or private JWK to PEM (auto-detected)
+const pem = jwkToPem(jwk);
 
-// Or verify JWT directly (recommended)
-const payload = verifyJwtWithJwk(token, jwk);
+// Or explicitly specify private key
+const privatePem = jwkToPem(jwk, { private: true });
 ```
 
 ### 2. Dependency Upgrades
@@ -101,30 +100,11 @@ const pem = jwkToPem(jwk);
 
 **After:**
 ```javascript
-const { jwkToPem } = require('./utils/jwk-to-pem-native');
+const jwkToPem = require('./utils/jwk-to-pem-native');
 const pem = jwkToPem(jwk);
 ```
 
-### For JWT Verification
-
-Consider using the more efficient direct verification method:
-
-**Before:**
-```javascript
-const jwkToPem = require('jwk-to-pem');
-const jwt = require('jsonwebtoken');
-
-const pem = jwkToPem(jwk);
-const payload = jwt.verify(token, pem);
-```
-
-**After:**
-```javascript
-const { verifyJwtWithJwk } = require('./utils/jwk-to-pem-native');
-
-// Skips PEM conversion step
-const payload = verifyJwtWithJwk(token, jwk);
-```
+The API is identical - a simple drop-in replacement!
 
 ## Testing
 
