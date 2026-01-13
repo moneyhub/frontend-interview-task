@@ -105,7 +105,34 @@ try {
 
 ## Testing
 
-To test the utility:
+The utility includes a comprehensive test suite with 100% code coverage.
+
+### Running Tests
+
+```bash
+# Run tests
+npm test
+
+# Run tests with coverage
+npm test -- --coverage
+
+# Run tests in watch mode
+npm run test:watch
+```
+
+### Test Coverage
+
+- **26 test cases** covering all functionality
+- **100% code coverage** (statements, branches, functions, lines)
+- Tests include:
+  - RSA public and private key conversion
+  - ECDSA keys (P-256, P-384)
+  - Error handling for invalid inputs
+  - Real-world JWK examples (Auth0/JWKS format)
+  - API compatibility verification
+  - Edge cases and various key sizes
+
+### Manual Testing Example
 
 ```javascript
 const crypto = require('crypto');

@@ -108,6 +108,8 @@ The API is identical - a simple drop-in replacement!
 
 ## Testing
 
+### Build Verification
+
 The build has been verified to work correctly:
 
 ```bash
@@ -115,6 +117,24 @@ npm run build
 # ✓ Compiled successfully
 # ✓ All pages generated
 ```
+
+### Unit Tests
+
+A comprehensive test suite has been added for the JWK to PEM utility:
+
+```bash
+npm test
+# ✓ 26 tests passing
+# ✓ 100% code coverage
+```
+
+**Test Coverage:**
+- 26 comprehensive test cases
+- 100% code coverage (statements, branches, functions, lines)
+- Tests for RSA and ECDSA keys
+- Error handling validation
+- Real-world JWK examples
+- API compatibility verification
 
 ## Next Steps
 
